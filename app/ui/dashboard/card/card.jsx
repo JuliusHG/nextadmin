@@ -1,9 +1,19 @@
-import styles from './card.module.css'
+import { MdSupervisedUserCircle } from "react-icons/md";
+import styles from "./card.module.css";
 
 const Card = () => {
     return (
-        <div className={styles.container}>Card</div>
-    )
-}
+        <div className={styles.container}>
+            <MdSupervisedUserCircle size={24} />
+            <div className={styles.texts}>
+                <span className={styles.title}>Total Usuarios</span>
+                <span className={styles.number}>10,273</span>
+                <span className={styles.detail}>
+                    <span className={styles.positive}>12%</span> de incremento
+                </span>
+            </div>
+        </div>
+    );
+};
 
-export default Card
+export default Card;

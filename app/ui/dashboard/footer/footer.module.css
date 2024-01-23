@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 30px;
+    color: var(--textSoft);
+}
+
+.logo {
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.text {
+    font-size: 10px;
+}
+
+.ornname {
+    font-family: fantasy;
+    font-size: 14px;
+    color:mediumslateblue;
+}
+
+.ornname2 {
+    font-weight: bold;
+    font-size: 12px;
+}

@@ -18,60 +18,60 @@ import {
 
 const menuItems = [
     {
-        title: "Pages",
+        title: "Páginas",
         list: [
             {
-                title: "Dashboard",
+                title: "Panel",
                 path: "/dashboard",
                 icon: <MdDashboard />,
             },
             {
-                title: "Users",
+                title: "Usuarios",
                 path: "/dashboard/users",
                 icon: <MdSupervisedUserCircle />,
             },
             {
-                title: "Products",
+                title: "Productos",
                 path: "/dashboard/products",
                 icon: <MdShoppingBag />,
             },
             {
-                title: "Transactions",
+                title: "Transacciones",
                 path: "/dashboard/transactions",
                 icon: <MdAttachMoney />,
             },
         ]
     },
     {
-        title: "Analytics",
+        title: "Analíticas",
         list: [
             {
-                title: "Revenue",
+                title: "Ingresos",
                 path: "/dashboard/revenue",
                 icon: <MdWork />,
             },
             {
-                title: "Reports",
+                title: "Reportes",
                 path: "/dashboard/reports",
                 icon: <MdSupervisedUserCircle />,
             },
             {
-                title: "Teams",
+                title: "Equipos",
                 path: "/dashboard/teams",
                 icon: <MdPeople />,
             },
         ],
     },
     {
-        title: "User",
+        title: "Usuario",
         list: [
             {
-                title: "Settings",
+                title: "Configuración",
                 path: "/dashboard/settings",
                 icon: <MdOutlineSettings />,
             },
             {
-                title: "Help",
+                title: "Ayuda",
                 path: "/dashboard/help",
                 icon: <MdHelpCenter />,
             },
@@ -86,7 +86,7 @@ const Sidebar = () => {
                 <Image className={styles.userImage} src="/julius-avatar.jpg" width="50" height="50" />
                 <div className={styles.userDetail}>
                     <span className={styles.username}>Julius</span>
-                    <span className={styles.userTitle}>Administrator</span>
+                    <span className={styles.userTitle}>Administrador</span>
                 </div>
             </div>
             <ul className={styles.list}>
@@ -103,7 +103,7 @@ const Sidebar = () => {
             </ul>
             <button className={styles.logout}>
                 <MdLogout />
-                Logout
+                Salir
             </button>
         </div>
     );
