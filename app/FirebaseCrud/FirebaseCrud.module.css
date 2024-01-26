@@ -1,0 +1,43 @@
+.container {
+ 
+}
+
+.thebox {
+
+}
+
+.aform {
+    padding: 20px;
+    background-color: lightgray;
+    color: black;
+    width: 500px;
+}
+
+.aform div {
+    display:flex;
+    flex-flow: column nowrap;
+}
+
+.abuttons {
+    background-color: lightgoldenrodyellow;
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    max-width: 500px;
+    justify-content: space-around;
+}
+
+.button {
+    width: 40%;
+    height: 26px;
+    margin: 10px;
+}
+
+.aform input {
+    height: 28px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 2px 5px;
+    margin-top:3px;
+}

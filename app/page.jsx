@@ -1,6 +1,8 @@
+import FirebaseCrud from "@/app/FirebaseCrud/FirebaseCrud";
+
 const Homepage = () => {
   return (
-    <div>Homepage</div>
+    <div><FirebaseCrud/></div>
   )
 }
 
