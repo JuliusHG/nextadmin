@@ -11,6 +11,15 @@
     justify-content: space-between;
 }
 
+.sort {
+    display: flex;
+    font-size: 14px;
+}
+
+.sort a {
+    color: rgb(105, 65, 250);
+}
+
 .addButton {
     padding: 10px;
     background-color: #5d57c9;

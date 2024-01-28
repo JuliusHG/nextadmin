@@ -14,6 +14,7 @@ const database = FirebaseConfig();
 const dbRef = ref(database, "users");
 
 const UsersPage = () => {
+  // Declare state variables
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -21,10 +22,11 @@ const UsersPage = () => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [currentUsers, setCurrentUsers] = useState([]);
 
+  // Fetch users data from the firebase realtime database and update state variables
   useEffect(() => {
     const fetchData = async () => {
       onValue(
-        ref(database, "users"),
+        dbRef,
         (snapshot) => {
           const data = snapshot.val();
           if (data) {
@@ -36,7 +38,7 @@ const UsersPage = () => {
           }
         },
         {
-          orderByChild: "createdAt",
+          orderByChild: "email",
         }
       );
     };
@@ -44,7 +46,9 @@ const UsersPage = () => {
     fetchData();
   }, [currentPage, database, itemsPerPage]);
 
+  // Update currentUsers state variable based on currentPage and itemsPerPage
   useEffect(() => {
+    const sortedUsers = users.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
     setCurrentUsers(users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
   }, [users, currentPage, itemsPerPage]);
 
@@ -52,6 +56,20 @@ const UsersPage = () => {
     <div className={styles.container}>
       <div className={styles.top}>
         <Search placeholder="Buscar usuario..." />
+        <div className={styles.sort}>
+          <span>(WIP) Ordenar por&nbsp;</span>
+          <Link href={`/dashboard/users?sort=name`} shallow legacyBehavior>
+            <a>Nombre</a>
+          </Link>
+          <span>&nbsp;|&nbsp;</span>
+          <Link href={`/dashboard/users?sort=email`} shallow legacyBehavior>
+            <a>Email</a>
+          </Link>
+          <span>&nbsp;|&nbsp;</span>
+          <Link href={`/dashboard/users?sort=createdAt`} shallow legacyBehavior>
+            <a>Fecha</a>
+          </Link>
+        </div>
         <Link href="/dashboard/users/add">
           <button className={styles.addButton}>Agregar nuevo</button>
         </Link>
