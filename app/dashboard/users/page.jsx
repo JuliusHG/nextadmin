@@ -9,12 +9,11 @@ import Link from "next/link";
 import Image from "next/image";
 import Pagination from "@/app/ui/dashboard/pagination/pagination";
 import { ref, onValue } from "firebase/database";
+import singleUserPage from "@/app/dashboard/users/[id]/page"
 
 const database = FirebaseConfig();
-const dbRef = ref(database, "users");
 
-const UsersPage = () => {
-  // Declare state variables
+const UsersPage = () => { // Declare state variables
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -24,33 +23,30 @@ const UsersPage = () => {
 
   // Fetch users data from the firebase realtime database and update state variables
   useEffect(() => {
+    const dbRef = ref(database, "users");
+
     const fetchData = async () => {
-      onValue(
-        dbRef,
-        (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            setUsers(Object.values(data));
-            setTotalItems(Object.keys(data).length);
-          } else {
-            setUsers([]);
-            setTotalItems(0);
-          }
-        },
-        {
-          orderByChild: "email",
+      onValue(dbRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          setUsers(Object.values(data));
+          setTotalItems(Object.keys(data).length);
+        } else {
+          setUsers([]);
+          setTotalItems(0);
         }
-      );
+      }, { orderByChild: "email", });
     };
 
     fetchData();
-  }, [currentPage, database, itemsPerPage]);
+  }, [currentPage]); // Add currentPage to the dependency array
 
   // Update currentUsers state variable based on currentPage and itemsPerPage
   useEffect(() => {
     const sortedUsers = users.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
-    setCurrentUsers(users.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
-  }, [users, currentPage, itemsPerPage]);
+    setCurrentUsers(sortedUsers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)); 
+  },
+  [users, currentPage, itemsPerPage]);
 
   return (
     <div className={styles.container}>
@@ -79,6 +75,7 @@ const UsersPage = () => {
           <tr>
             <td>Nombre</td>
             <td>Email</td>
+            <td>Phone</td>
             <td>Creado</td>
             <td>Rol</td>
             <td>Status</td>
@@ -97,16 +94,17 @@ const UsersPage = () => {
                     height={40}
                     className={styles.userImage}
                   />{" "}
-                  {user.name}
+                  {user.name && user.name}
                 </div>
               </td>
-              <td>{user.email}</td>
+              <td>{user && user.email}</td>
+              <td>{user && user.phone}</td>
               <td>{format(new Date(user.createdAt), "dd-MM-yyyy")}</td>
-              <td>{user.isAdmin ? "Admin" : ""}</td>
-              <td>{user.isActive ? "Active" : "Inactive"}</td>
+              <td>{user && user.isAdmin ? "Admin" : ""}</td>
+              <td>{user && user.isActive ? "Active" : "Inactive"}</td>
               <td>
                 <div className={styles.buttons}>
-                  <Link href={`/dashboard/users/${user.id}`}>
+                  <Link href={`/dashboard/users/${currentUsers.indexOf(user)}`}>
                     <button className={`${styles.button} ${styles.view}`}>Ver</button>
                   </Link>
                   <button className={`${styles.button} ${styles.delete}`}>Eliminar</button>

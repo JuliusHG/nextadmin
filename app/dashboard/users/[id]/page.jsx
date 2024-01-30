@@ -1,42 +1,59 @@
-import styles from '@/app/ui/dashboard/users/singleUser/singleUser.module.css';
-import Image from 'next/image';
+"use client";
 
-const singleUserPage = () => {
-    return (
-        <div className={styles.container}>
-            <div className={styles.infoContainer}>
-                <div className={styles.imgContainer}>
-                    <Image src="/tb-paul.jpg" alt="" fill />
-                </div>
-                Paul McCartney
-            </div>
-            <div className={styles.formContainer}>
-                <form action="" className={styles.form}>  
-                    <label>Nombre de Usuario</label>
-                    <input type="text" name="username" placeholder="Paul McCartney" />
-                    <label>Correo Electrónico</label>
-                    <input type="email" name="email" placeholder="macca@gmail.com" />
-                    <label>Contraseña</label>
-                    <input type="password" name="password" placeholder="thrillington" />
-                    <label>Teléfono</label>
-                    <input type="phone" name="phone" placeholder="+529612448224" />
-                    <label>Dirección</label>
-                    <textarea type="text" name="address" placeholder="Mull of Kyntire" />
-                    <label>¿Es admin?</label>
-                    <select name="isAdmin" id="isAdmin">
-                        <option value={true}>Sí</option>
-                        <option value={false}>No</option>
-                    </select>
-                    <label>¿Activo?</label>
-                    <select name="isActive" id="isActive">
-                        <option value={true}>Sí</option>
-                        <option value={false}>No</option>
-                    </select>
-                    <button>Actualizar</button>
-                </form>
-            </div>
-        </div>
-    );
+import { useState, useEffect } from "react";
+import { ref, onValue } from "firebase/database";
+import FirebaseConfig from "@/app/FirebaseConfig/FirebaseConfig";
+import { useRouter } from 'next/navigation';
+
+const SingleUserPage = () => {
+  const [user, setUser] = useState(null);
+  const database = FirebaseConfig();
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!id) {
+          // If id is not available yet, return early or set default behavior
+          return;
+        }
+
+        const dbRef = ref(database, "users");
+
+        onValue(dbRef, (snapshot) => {
+          const data = snapshot.val();
+
+          if (data) {
+            const selectedUser = data[id];
+
+            if (selectedUser) {
+              setUser(selectedUser);
+            } else {
+              setUser(null);
+            }
+          } else {
+            setUser(null);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, [database, id]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <h1>User Name: {user.name}</h1>
+      {/* Display other user details as needed */}
+    </div>
+  );
 };
 
-export default singleUserPage
+export default SingleUserPage;
